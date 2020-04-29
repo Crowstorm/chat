@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IonHeader, IonContent, IonToolbar, IonTitle, IonPage, IonButtons, IonBackButton } from '@ionic/react';
+import { IonHeader,IonToolbar, IonTitle, IonPage, IonButtons, IonBackButton } from '@ionic/react';
 import { firestore } from '../../firebase';
 import { useParams } from 'react-router-dom';
 // import io from 'socket.io-client';
@@ -14,11 +14,7 @@ type ChatProps = {
 }
 
 const Chat: React.FC<ChatProps> = ({ socket }) => {
-    interface NewMsg {
-        user: string,
-        msg: string
-    }
-
+   
     // if (!socket) { socket = io(':3000') }
 
     const chatId = useParams<{ id: string }>().id;

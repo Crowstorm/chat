@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonInput, IonItem, IonRange, IonLabel, IonText } from '@ionic/react';
+import {IonRange, IonLabel } from '@ionic/react';
 
 const RangeInput: React.FC<{
     id: string,

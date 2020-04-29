@@ -1,5 +1,4 @@
 import React from 'react';
-import { IonItem, IonText } from '@ionic/react';
 import './chat.css'
 
 const Message: React.FC<{

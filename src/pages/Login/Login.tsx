@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { IonHeader, IonContent, IonToolbar, IonTitle, IonButton, IonPage, IonList, IonText } from '@ionic/react';
-import { Formik, setNestedObjectValues } from 'formik';
+import { IonButton, IonPage, IonList, IonText } from '@ionic/react';
+import { Formik  } from 'formik';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
-import { auth, firestore, db } from '../../firebase';
+import { auth, firestore } from '../../firebase';
 
 import './login.css'
 
@@ -20,7 +20,7 @@ const Login: React.FC = () => {
 
 
     useEffect(() => {
-        const currentUser = localStorage.getItem("currentUser");
+        // const currentUser = localStorage.getItem("currentUser");
 
         // if (currentUser) {
         //     history.replace('/home');

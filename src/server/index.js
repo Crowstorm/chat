@@ -23,8 +23,8 @@ io.on('connection', function (socket) {
     // console.log(users[id][0].id);
 
     socket.on('chat message', function (id) {
-        // console.log(id)
-        console.log(users[id][0]);
+        console.log(id)
+        // console.log(users[id][0]);
         socket.broadcast.to(users[id][0].id).emit('chat message');
     });
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { IonItem, IonContent, IonPage, IonHeader, IonToolbar, IonTitle } from '@ionic/react';
+import {  IonPage, IonHeader, IonToolbar, IonTitle } from '@ionic/react';
 import { firestore } from '../../firebase';
 import './conversations.css';
 

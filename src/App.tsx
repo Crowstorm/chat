@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonApp, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel, IonTabs } from '@ionic/react';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { IonReactRouter } from '@ionic/react-router';
 import { list } from 'ionicons/icons'
 import io from 'socket.io-client';
@@ -43,10 +43,14 @@ const App: React.FC = () => {
         })
     };
 
-    socket.on('new conversation', () => {
-        console.log('masz wiadomosc')
-        alert('nowa wiadomosc mordo')
-    })
+    if(socket){
+        socket.on('new conversation', () => {
+            console.log('masz wiadomosc')
+            alert('nowa wiadomosc mordo')
+        })
+    }
+
+  
 
     return (
 
