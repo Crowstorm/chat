@@ -1,0 +1,60 @@
+.segmentButton {
+    background-color: white;
+    border-radius: 30px;
+    margin: 16px;
+    color: #00215e;
+}
+
+.segmentButton:active {
+    background-color: #eee31e;
+}
+
+.segmentButtonActive{
+    background-color: #eee31e;
+}
+
+.segment {
+    display: flex;
+    flex-direction: column;
+}
+
+.segmentButtonContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.segmentLabel {
+    color: white;
+    margin-top: 16px;
+}
+
+
+
+.textInput{
+    text-align: center;
+    /* background-color: #00215e;
+    border: none; */
+}
+
+.textInputContainer{
+    margin: 8px;
+}
+
+.numberInputContainer{
+    margin: 8px;
+    width: 33%;
+}
+
+
+
+.ageRangeLabel{
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+
+
+.rangeInput{
+    width: 100%
+}

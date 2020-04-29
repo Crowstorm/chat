@@ -1,0 +1,22 @@
+.ownerName {
+    color: #78c7ff;
+}
+
+.otherUserName {
+    color: #eee31e;
+}
+
+.messageContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 16px;
+    background: transparent;
+    color: white
+}
+
+.chatInput{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
