@@ -46,7 +46,7 @@ const App: React.FC = () => {
     if(socket){
         socket.on('new conversation', () => {
             console.log('masz wiadomosc')
-            alert('nowa wiadomosc mordo')
+            alert('Nowa para kolego')
         })
     }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IonHeader,IonToolbar, IonTitle, IonPage, IonButtons, IonBackButton } from '@ionic/react';
+import { IonHeader, IonToolbar, IonTitle, IonPage, IonButtons, IonBackButton } from '@ionic/react';
 import { firestore } from '../../firebase';
 import { useParams } from 'react-router-dom';
 // import io from 'socket.io-client';
@@ -14,8 +14,15 @@ type ChatProps = {
 }
 
 const Chat: React.FC<ChatProps> = ({ socket }) => {
-   
-    // if (!socket) { socket = io(':3000') }
+
+    const currentUser = JSON.parse(localStorage.getItem("currentUser")).id;
+    if (currentUser && !socket) {
+        socket = io(':3000', {
+            query: {
+                id: currentUser
+            }
+        })
+    };
 
     const chatId = useParams<{ id: string }>().id;
     const chatRef = firestore.collection("conversations").doc(chatId);
@@ -42,7 +49,8 @@ const Chat: React.FC<ChatProps> = ({ socket }) => {
         chatRef.get().then(function (doc) {
             if (doc.exists) {
                 if (doc.data().users && doc.data().users.length >= 2 && doc.data().users[1]) {
-                    const id = doc.data().users[1];
+                    const id = (currentUser === doc.data().users[1]) ? doc.data().users[0] : doc.data().users[1];
+                    console.log(currentUser, '   ', id);
                     setMatchedPersonId(id);
 
                     userRef
@@ -71,6 +79,7 @@ const Chat: React.FC<ChatProps> = ({ socket }) => {
     }, [])
 
     socket.on('chat message', () => {
+        console.log('wiadomooooooosc')
         getMessages();
     })
 

@@ -10,11 +10,12 @@ io.on('connection', function (socket) {
     const id = socket.handshake.query.id;
 
 
-    if (!users[id]) {
-        users[id] = []//IMPORTANT:
-        //Because a user can have more than one window open, an array of sockets is needed.
-    }
-    users[id].push(socket);
+    // if (!users[id]) {
+    //     users[id] = []//IMPORTANT:
+    //     //Because a user can have more than one window open, an array of sockets is needed.
+    // }
+    // users[id].push(socket);
+    users[id] = socket;
 
     socket.on('disconnect', function () {
         console.log('user disconnected');
@@ -24,13 +25,20 @@ io.on('connection', function (socket) {
 
     socket.on('chat message', function (id) {
         console.log(id)
-        // console.log(users[id][0]);
-        socket.broadcast.to(users[id][0].id).emit('chat message');
+        // console.log(users)
+        // console.log(users[id][0].id);
+        console.log('___________')
+        // if (users[id] && users[id][0] && users[id][0].id) {
+            console.log('wysylam')
+            socket.broadcast.to(users[id].id).emit('chat message');
+        // }
     });
 
-    socket.on('new conversation', function(id){
+    socket.on('new conversation', function (id) {
         console.log(id)
-        socket.broadcast.to(users[id][0].id).emit('new conversation');
+        // if (users[id] && users[id][0] && users[id][0].id) {
+            socket.broadcast.to(users[id].id).emit('new conversation');
+        // }
     })
 });
 

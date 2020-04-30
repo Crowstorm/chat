@@ -20,6 +20,15 @@ const Home: React.FC<HomeProps> = ({ socket }) => {
     const history = useHistory();
     const [formData, setFormData] = useState(null);
 
+    const currentUser = JSON.parse(localStorage.getItem("currentUser")).id;
+    if (currentUser && !socket) {
+        socket = io(':3000', {
+            query: {
+                id: currentUser
+            }
+        })
+    };
+
     const submitForm = (values: any) => {
         setFormData(values);
         console.log(formData)
@@ -27,7 +36,6 @@ const Home: React.FC<HomeProps> = ({ socket }) => {
 
         //znajdź osoby o podanych parametrach i wylosuj jedna
         let validUsers: string[] = []
-        const currentUser = JSON.parse(localStorage.getItem("currentUser")).id;
 
         firestore.collection('users')
             .where("age", ">=", values.age.lower)
