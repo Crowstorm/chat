@@ -31,6 +31,35 @@ const Home: React.FC<HomeProps> = ({ socket }) => {
         })
     };
 
+    const doesConversationExist = async (conversationUsers: any, reversedConversationUsers: any) => {
+        const doesChatExists1 = firestore.collection('conversations')
+            .where('users', '==', reversedConversationUsers)
+            .get();
+        const doesChatExists2 = firestore.collection('conversations')
+            .where('users', '==', conversationUsers)
+            .get();
+
+        const [check1, check2] = await Promise.all([
+            doesChatExists1,
+            doesChatExists2
+        ]);
+
+
+        if (check1.docs.length === 0 && check2.docs.length === 0) {
+            return false;
+        } else {
+            if (check1.docs && check1.docs[0] && check1.docs[0].id) {
+                console.log(check1.docs[0].id)
+                return check1.docs[0].id
+            } else if (check2.docs && check2.docs[0] && check2.docs[0].id) {
+                console.log(check2.docs[0].id)
+                return check2.docs[0].id
+            }
+
+        }
+
+    }
+
     const submitForm = (values: any) => {
         setFormData(values);
         console.log(formData)
@@ -60,31 +89,50 @@ const Home: React.FC<HomeProps> = ({ socket }) => {
                     const reversedConversationUsers = [randomUser, currentUser];
 
                     //sprawdzic czy z ta osoba konwersacja juz nie istnieje, jesli istnieje podlaczyc sie do niej ponownie
-                    firestore.collection('conversations')
-                        .where('users', "in", [randomUser])
-                        .where('users', "array-contains", currentUser)
-                        // .where('users', '==', reversedConversationUsers)
-                        .get()
-                        .then(querySnapshot => {
-                            if (querySnapshot.size > 0) {
-                                history.push('/conversation/' + querySnapshot.docs[0].id)
-                                return;
-                            } else {
-                                //stworz konwersacje pomiedzy tymi osobami i pobierz id by do niej przejsc
-                                firestore.collection('conversations')
-                                    .add({
-                                        messages: [],
-                                        users: conversationUsers
-                                    })
-                                    .then(docRef => {
-                                        socket.emit('new conversation', randomUser);
-                                        history.push('/conversation/' + docRef.id)
-                                    })
-                                    .catch((error) => {
-                                        console.error("Error adding document: ", error);
-                                    });
-                            }
-                        })
+                    doesConversationExist(conversationUsers, reversedConversationUsers).then(res => {
+                        console.log(res);
+
+                        if (res) {
+                            history.push('/conversation/' + res);
+                            return;
+                        } else {
+                            firestore.collection('conversations')
+                                .add({
+                                    messages: [],
+                                    users: conversationUsers
+                                })
+                                .then(docRef => {
+                                    socket.emit('new conversation', randomUser);
+                                    history.push('/conversation/' + docRef.id)
+                                })
+                                .catch((error) => {
+                                    console.error("Error adding document: ", error);
+                                });
+                        }
+                    });
+
+                    // .then(querySnapshot => {
+                    //     if (querySnapshot.size > 0) {
+                    //         history.push('/conversation/' + querySnapshot.docs[0].id)
+                    //         return;
+                    //     } else {
+                    //         //stworz konwersacje pomiedzy tymi osobami i pobierz id by do niej przejsc
+                    //         firestore.collection('conversations')
+                    //             .add({
+                    //                 messages: [],
+                    //                 users: conversationUsers
+                    //             })
+                    //             .then(docRef => {
+                    //                 socket.emit('new conversation', randomUser);
+                    //                 history.push('/conversation/' + docRef.id)
+                    //             })
+                    //             .catch((error) => {
+                    //                 console.error("Error adding document: ", error);
+                    //             });
+                    //     }
+                    // })
+
+
                 } else {
                     alert('nie ma userow spelniajacych warunkui')
                 }
