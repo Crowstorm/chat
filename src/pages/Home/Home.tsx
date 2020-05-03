@@ -5,6 +5,8 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import _ from 'lodash';
 import { firestore } from '../../firebase';
+import io from 'socket.io-client';
+
 import './home.css'
 
 
@@ -55,10 +57,13 @@ const Home: React.FC<HomeProps> = ({ socket }) => {
                 if (validUsers.length > 0) {
                     const randomUser = _.sample(validUsers);
                     const conversationUsers = [currentUser, randomUser];
+                    const reversedConversationUsers = [randomUser, currentUser];
 
                     //sprawdzic czy z ta osoba konwersacja juz nie istnieje, jesli istnieje podlaczyc sie do niej ponownie
                     firestore.collection('conversations')
-                        .where('users', '==', conversationUsers)
+                        .where('users', "in", [randomUser])
+                        .where('users', "array-contains", currentUser)
+                        // .where('users', '==', reversedConversationUsers)
                         .get()
                         .then(querySnapshot => {
                             if (querySnapshot.size > 0) {

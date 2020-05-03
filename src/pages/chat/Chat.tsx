@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IonHeader, IonToolbar, IonTitle, IonPage, IonButtons, IonBackButton } from '@ionic/react';
 import { firestore } from '../../firebase';
 import { useParams } from 'react-router-dom';
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
 
 import ChatInput from './ChatInput';
 import Message from './Message';

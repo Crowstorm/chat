@@ -78,6 +78,7 @@ const Login: React.FC = () => {
         if (isUserSaved) {
             history.replace('/home');
             console.log('zalogowany')
+            window.location.reload(); 
         }
 
     }, [isUserSaved])
